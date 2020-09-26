@@ -1,0 +1,4 @@
+CREATE TABLE savedPassages (
+  id SERIAL PRIMARY KEY,
+  passage VARCHAR(255) NOT NULL
+)

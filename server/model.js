@@ -2,7 +2,7 @@ const db = require('../db/index.js');
 
 module.exports = {
   get: callback => {
-    let queryStr = `SELECT * FROM savedpassages`;
+    let queryStr = `SELECT * FROM highlights`;
     db.query(queryStr, (err, result) => {
       if (err) {
         console.log('Failed to get pasages');
@@ -11,8 +11,8 @@ module.exports = {
       }
     })
   },
-  add: (newPass, callback) => {
-    let queryStr = `INSERT INTO savedpassages (passage) VALUES ('${newPass}')`;
+  add: (passId, start, end, callback) => {
+    let queryStr = `INSERT INTO highlights (pId, pStart, pEnd) VALUES (${passId}, ${start}, ${end})`;
     db.query(queryStr, (err, result) => {
       if (err) {
         console.log('Failed to save passage');

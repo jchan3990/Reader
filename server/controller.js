@@ -11,7 +11,8 @@ module.exports = {
     })
   },
   add: (req, res) => {
-    model.add(req.body.passage, (err, result, field) => {
+    console.log(req);
+    model.add(req.body.pId, req.body.pStart, req.body.pEnd, (err, result, field) => {
       if (err) {
         res.status(401).send(err);
       } else {

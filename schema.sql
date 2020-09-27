@@ -1,4 +1,8 @@
-CREATE TABLE savedPassages (
+DROP TABLE IF EXISTS highlights;
+
+CREATE TABLE highlights (
   id SERIAL PRIMARY KEY,
-  passage VARCHAR(255) NOT NULL
+  pId SMALLINT NOT NULL,
+  pStart SMALLINT NOT NULL,
+  pEnd SMALLINT NOT NULL
 )

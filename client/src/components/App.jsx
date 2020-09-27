@@ -23,11 +23,15 @@ const App = () => {
     let end = selObj.extentOffset;
     let string = selObj.toString();
     let toChange = document.getElementsByClassName("passage")[passId].innerHTML
-    console.log(string);
-    console.log(toChange);
     toChange = toChange.replace(string, "<span class=highlighted>" + string + "</span>");
     document.getElementsByClassName("passage")[passId].innerHTML = toChange;
-    console.log(toChange);
+    axios.post('/api/reader', {
+      'pId': passId,
+      'pStart': start,
+      'pEnd': end,
+    })
+    .then(response => {console.log('Saved highlight')})
+    .catch(err => {console.log('Failed to save')})
   }
 
   return (

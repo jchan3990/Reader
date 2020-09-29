@@ -1,7 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Paragraphs = ({ passage, currPage }) => {
+  const [savedPass, setSavedPass] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/reader')
+      .then(response => {
+        setSavedPass(response.data.rows)
+      })
+      restoreHighlights();
+  }, [currPage])
+
+  const restoreHighlights = () => {
+    savedPass.forEach(pass => {
+      let currpage = pass.currpage;
+      if (currpage === currPage) {
+        let pid = pass.pid;
+        let pstart = pass.pstart;
+        let pend = pass.pend;
+
+        let string = document.getElementsByClassName("passage")[pid].innerHTML.substring(pstart, pend);
+        let toChange = document.getElementsByClassName("passage")[pid].innerHTML;
+        toChange = toChange.replace(string, "<span class=highlighted>" + string + "</span>");
+        document.getElementsByClassName("passage")[pid].innerHTML = toChange;
+      }
+    })
+  }
 
   const selectPhrase = (event) => {
     event.preventDefault();
@@ -17,13 +42,15 @@ const Paragraphs = ({ passage, currPage }) => {
       selObj.anchorNode.parentNode.innerHTML = toChange;
       axios.post('/api/reader', {
         'currPage': currPage,
-        'pId': passId,
+        'pId': passId / currPage,
         'pStart': start,
         'pEnd': end,
       })
       .then(response => {})
     }
   }
+
+  // restoreHighlights();
 
   return (
     <div className="passageContainer" onMouseUp={selectPhrase}>

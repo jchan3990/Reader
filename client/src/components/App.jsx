@@ -9,33 +9,13 @@ import sampleData from '../sampleData/sampleData.js'
 
 const App = () => {
   const [passage, setPassage] = useState([]);
-  const [savedPass, setSavedPass] = useState([]);
   const [currPage, setCurrPage] = useState(1);
   const [passLimit, setPassLimit] = useState(10);
-
 
   useEffect(() => {
     let hp = sampleData.split('\n\n\n');
     setPassage(hp.map((pass, idx) => <p key={idx} id={idx} className="passage">{pass}</p>));
-    axios.get('/api/reader')
-    .then(response => {
-      setSavedPass(response.data.rows);
-    })
   }, [])
-
-  const restoreHighlights = () => {
-    savedPass.forEach(pass => {
-      let currpage = pass.currpage;
-      let pid = pass.pid;
-      let pstart = pass.pstart;
-      let pend = pass.pend;
-
-      // let string = document.getElementsByClassName("passage")[pid].innerHTML.substring(pstart, pend);
-      // let toChange = document.getElementsByClassName("passage")[pid].innerHTML;
-      // toChange = toChange.replace(string, "<span class=highlighted>" + string + "</span>");
-      // document.getElementsByClassName("passage")[pid].innerHTML = toChange;
-    })
-  }
 
   const goFirst = (page) => {
     setCurrPage(page);
@@ -52,8 +32,6 @@ const App = () => {
   const goForward = (page) => {
     setCurrPage(page);
   }
-
-  restoreHighlights();
 
   const idxOfLast = currPage * passLimit;
   const idxOfFirst = idxOfLast - passLimit;

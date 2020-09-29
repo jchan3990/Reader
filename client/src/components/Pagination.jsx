@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Pagination = ({ passLimit, totalPasses, currPage, goFirst, goBack, goLast, goForward }) => {
+const Pagination = ({ passage, passLimit, totalPasses, currPage, goFirst, goBack, goLast, goForward }) => {
 
   const totalPages = Math.ceil(totalPasses / passLimit);
 

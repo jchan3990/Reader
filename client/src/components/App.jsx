@@ -9,13 +9,38 @@ import sampleData from '../sampleData/sampleData.js'
 
 const App = () => {
   const [passage, setPassage] = useState([]);
-  const [currPage, setCurrPage] = useState(1);
+  const [savedPass, setSavedPass] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currPage, setCurrPage] = useState(1)
   const [passLimit, setPassLimit] = useState(10);
 
   useEffect(() => {
     let hp = sampleData.split('\n\n\n');
     setPassage(hp.map((pass, idx) => <p key={idx} id={idx} className="passage">{pass}</p>));
+    axios.get('/api/reader')
+      .then(response => {
+        setSavedPass(response.data.rows);
+      })
+      .then(result => {
+        restoreHighlights();
+      })
   }, [])
+
+  const restoreHighlights = () => {
+    savedPass.forEach(pass => {
+      let currpage = pass.currpage;
+      if (currpage === currPage) {
+        let pid = pass.pid;
+        let pstart = pass.pstart;
+        let pend = pass.pend;
+
+        let string = document.getElementsByClassName("passage")[pid].innerHTML.substring(pstart, pend);
+        let toChange = document.getElementsByClassName("passage")[pid].innerHTML;
+        toChange = toChange.replace(string, "<span class=highlighted>" + string + "</span>");
+        document.getElementsByClassName("passage")[pid].innerHTML = toChange;
+      }
+    })
+  }
 
   const goFirst = (page) => {
     setCurrPage(page);
@@ -37,11 +62,13 @@ const App = () => {
   const idxOfFirst = idxOfLast - passLimit;
   const currPasses = passage.slice(idxOfFirst, idxOfLast);
 
+  if (!passage.length) return <h2>Loading...</h2>
+
   return (
     <div className="main">
       <TopBar />
-      <Paragraphs passage={currPasses} currPage={currPage}/>
-      <Pagination passLimit={passLimit} totalPasses={passage.length} currPage={currPage} goFirst={goFirst} goBack={goBack} goLast={goLast} goForward={goForward}  />
+      <Paragraphs passage={currPasses} currPage={currPage} />
+      <Pagination passLimit={passLimit} totalPasses={passage.length} currPage={currPage} goFirst={goFirst} goBack={goBack} goLast={goLast} goForward={goForward} />
     </div>
   )
 };

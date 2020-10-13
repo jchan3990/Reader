@@ -35,7 +35,6 @@ const App = () => {
       let currpage = pass.currpage;
       if (currpage === currPage) {
         let pid = pass.pid % passLimit;
-        // let pstart = pass.pstart;
         let pstring = pass.pstring;
         let pstart = document.getElementsByClassName("passage")[pid].innerHTML.indexOf(pstring);
         let pend = pstart + pstring.length;
@@ -67,6 +66,11 @@ const App = () => {
   const idxOfLast = currPage * passLimit;
   const idxOfFirst = idxOfLast - passLimit;
   const currPasses = passage.slice(idxOfFirst, idxOfLast);
+
+  axios.get('/api/reader')
+  .then(response => {
+    restoreHighlights();
+  })
 
   return (
     <div className="main">

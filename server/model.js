@@ -11,11 +11,11 @@ module.exports = {
       }
     })
   },
-  add: (currPage, passId, start, end, callback) => {
-    let queryStr = `INSERT INTO highlights (currPage, pId, pStart, pEnd) VALUES (${currPage}, ${passId}, ${start}, ${end})`;
+  add: (currPage, passId, start, end, string, callback) => {
+    let queryStr = `INSERT INTO highlights (currPage, pId, pStart, pEnd, pString) VALUES (${currPage}, ${passId}, ${start}, ${end}, '${string}')`;
     db.query(queryStr, (err, result) => {
       if (err) {
-        console.log('Failed to save passage');
+        console.log('Failed to save passage', err);
       } else {
         callback(null, result);
       }

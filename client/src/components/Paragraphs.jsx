@@ -12,13 +12,14 @@ const Paragraphs = ({ passage, currPage }) => {
 
     if (Math.abs(start - end) !== 0) {
       let toChange = selObj.anchorNode.parentNode.innerHTML
-      toChange = toChange.replace(string, "<span class=highlighted>" + string + "</span>");
+      toChange = toChange.replace(string, `<span id=${passId} class=highlighted>` + string + `</span>`);
       selObj.anchorNode.parentNode.innerHTML = toChange;
       axios.post('/api/reader', {
         'currPage': currPage,
         'pId': passId,
         'pStart': start,
         'pEnd': end,
+        'pString': string,
       })
       .then(response => {})
     }

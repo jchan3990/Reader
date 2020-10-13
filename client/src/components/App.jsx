@@ -21,16 +21,17 @@ const App = () => {
       .then(response => {
         setSavedPass(response.data.rows);
       })
-      .then(result => {
-        restoreHighlights();
-      })
   }, [])
+
+  useEffect(() => {
+    restoreHighlights();
+  }, [currPage])
 
   const restoreHighlights = () => {
     savedPass.forEach(pass => {
       let currpage = pass.currpage;
       if (currpage === currPage) {
-        let pid = pass.pid;
+        let pid = pass.pid % 10;
         let pstart = pass.pstart;
         let pend = pass.pend;
 
@@ -62,7 +63,7 @@ const App = () => {
   const idxOfFirst = idxOfLast - passLimit;
   const currPasses = passage.slice(idxOfFirst, idxOfLast);
 
-  if (!passage.length) return <h2>Loading...</h2>
+  restoreHighlights();
 
   return (
     <div className="main">

@@ -10,7 +10,6 @@ import sampleData from '../sampleData/sampleData.js'
 const App = () => {
   const [passage, setPassage] = useState([]);
   const [savedPass, setSavedPass] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [currPage, setCurrPage] = useState(1)
   const [passLimit, setPassLimit] = useState(10);
 

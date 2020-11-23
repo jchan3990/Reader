@@ -11,7 +11,7 @@ webpack -d --watch
 ```
 nodemon server/index.js
 ```
-> Postgres schema to save passges:
+> Postgres schema to save passages:
 ```
 createdb reader
 psql -d reader < schema.sql
@@ -23,9 +23,7 @@ An `nvmrc` file is included if using [nvm](https://github.com/nvm-sh/nvm).
 * etc
 
 Must have [Postgres](https://www.npmjs.com/package/postgres) installed for database.
-* Inside the root dir:
-  - createdb reader
-  - psql -d reader < schema.sql
+* Configure accordingly
 
 ## Development ##
 From within the root directory:
